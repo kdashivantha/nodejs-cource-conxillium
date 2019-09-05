@@ -18,24 +18,26 @@ app.get('/', (req,res)=>{
 
 // get all todos
 app.get('/api/todos', (req, res) => {
-    res.status(200).send({
-      success: 'true',
-      message: 'todos retrieved successfully',
-      todos: db
-    })
+    res.status(200).send(db);
 });
+
+// get a single todo
+
+app.get('/api/todos/:id', (req, res) => {
+    const todo = db.find(t=>t.id === parseInt(req.params.id));
+    if(!todo) res.status(400).send('no todo found for given Id');
+    res.send(todo);
+  });
+
 
 //create
 app.post('/api/todos', (req, res) => {
+
+    //validations
     if(!req.body.title) {
       return res.status(400).send({
         success: 'false',
         message: 'title is required'
-      });
-    } else if(!req.body.description) {
-      return res.status(400).send({
-        success: 'false',
-        message: 'description is required'
       });
     }
    const todo = {
@@ -44,60 +46,30 @@ app.post('/api/todos', (req, res) => {
      description: req.body.description
    }
    db.push(todo);
-   return res.status(201).send({
-     success: 'true',
-     message: 'todo added successfully',
-     todo
-   })
+   return res.status(201).send(todo);
 });
 //use post-man to show
 
-// get a single todo
-
-app.get('/api/todos/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    db.map((todo) => {
-      if (todo.id === id) {
-        return res.status(200).send({
-          success: 'true',
-          message: 'todo retrieved successfully',
-          todo,
-        });
-      } 
-  });
-   return res.status(404).send({
-     success: 'false',
-     message: 'todo does not exist',
-    });
-  });
 
 
   //delete todo
-  app.delete('/api/v1/todos/:id', (req, res) => {
+  app.delete('/api/todos/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
   
     db.map((todo, index) => {
       if (todo.id === id) {
          db.splice(index, 1);
-         return res.status(200).send({
-           success: 'true',
-           message: 'Todo deleted successfuly',
-         });
+         return res.status(200).send('Todo deleted successfuly');
       }
     });
-  
-  
-      return res.status(404).send({
-        success: 'false',
-        message: 'todo not found',
-      });
-  
-   
+
+    return res.status(404).send( 'todo not found');
+
   });
 
 
 //update todos
-app.put('/api/v1/todos/:id', (req, res) => {
+app.put('/api/todos/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
     let todoFound;
     let itemIndex;
@@ -120,26 +92,16 @@ app.put('/api/v1/todos/:id', (req, res) => {
         success: 'false',
         message: 'title is required',
       });
-    } else if (!req.body.description) {
-      return res.status(400).send({
-        success: 'false',
-        message: 'description is required',
-      });
     }
   
     const updatedTodo = {
       id: todoFound.id,
-      title: req.body.title || todoFound.title,
-      description: req.body.description || todoFound.description,
+      title: req.body.title || todoFound.title
     };
   
     db.splice(itemIndex, 1, updatedTodo);
   
-    return res.status(201).send({
-      success: 'true',
-      message: 'todo added successfully',
-      updatedTodo,
-    });
+    return res.status(201).send('todo added successfully');
   });
 
 
