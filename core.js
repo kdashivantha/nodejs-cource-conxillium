@@ -1,5 +1,12 @@
+/**
+ * sample usings of node core modules.
+ * more apis found here.. https://nodejs.org/dist/latest-v10.x/docs/api/
+ * 
+ */
+
+
 console.log('Hello Conxils');
-/*
+
 //os module
 const os = require('os');
 
@@ -32,4 +39,4 @@ const server = http.createServer( (req,res)=>{
 server.listen(3000);
 console.log('Server is Listing on port 3000');
 
-*/
+// node core.js

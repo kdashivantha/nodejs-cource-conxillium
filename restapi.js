@@ -1,3 +1,7 @@
+/**
+ * simple Express server with node
+ */
+
 const express = require('express');
 const app = express();
 

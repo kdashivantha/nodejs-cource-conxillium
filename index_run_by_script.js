@@ -1,3 +1,7 @@
+/**
+ * sample use of external packages
+ */
+
 const _ = require('underscore');
 
 
@@ -7,3 +11,8 @@ var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly',
 
 console.log(_.sortBy(stooges, 'name'));
 console.log(_.sortBy(stooges, 'age'));
+
+
+
+
+//to run >> npm run runsample
